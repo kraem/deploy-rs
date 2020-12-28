@@ -64,6 +64,9 @@ struct Opts {
     /// Override the SSH options used
     #[clap(long)]
     ssh_opts: Option<String>,
+    /// Use interactive TTY over SSH
+    #[clap(long)]
+    ssh_interactive_tty: bool,
     /// Override if the connecting to the target node should be considered fast
     #[clap(long)]
     fast_connection: Option<bool>,
@@ -343,6 +346,7 @@ async fn run_deploy(
     extra_build_args: &[String],
     debug_logs: bool,
     log_dir: Option<String>,
+    ssh_interactive_tty: bool,
 ) -> Result<(), RunDeployError> {
     let to_deploy: Vec<((&str, &utils::data::Node), (&str, &utils::data::Profile))> =
         match (&deploy_flake.node, &deploy_flake.profile) {
@@ -441,6 +445,7 @@ async fn run_deploy(
             &cmd_overrides,
             debug_logs,
             log_dir.as_deref(),
+            &ssh_interactive_tty,
         );
 
         let deploy_defs = deploy_data.defs()?;
@@ -547,6 +552,7 @@ async fn run() -> Result<(), RunError> {
         &opts.extra_build_args,
         opts.debug_logs,
         opts.log_dir,
+        opts.ssh_interactive_tty,
     )
     .await?;
 
