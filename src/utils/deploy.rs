@@ -211,11 +211,11 @@ pub async fn deploy_profile(
     let ssh_addr = format!("ssh://{}@{}", deploy_defs.ssh_user, hostname);
 
     let mut ssh_activate_command_ = Command::new("ssh");
-    let ssh_activate_command = ssh_activate_command_.arg(&ssh_addr);
-
     if *deploy_data.ssh_interactive_tty {
-        ssh_activate_command.arg("-t");
+        ssh_activate_command_.arg("-t");
     }
+
+    let ssh_activate_command = ssh_activate_command_.arg(&ssh_addr);
 
     for ssh_opt in &deploy_data.merged_settings.ssh_opts {
         ssh_activate_command.arg(&ssh_opt);
