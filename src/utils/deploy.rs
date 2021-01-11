@@ -214,12 +214,17 @@ pub async fn deploy_profile(
     let ssh_activate_command = ssh_activate_command_.arg(&ssh_addr);
 
     if *deploy_data.ssh_interactive_tty {
-        ssh_activate_command.arg("-S");
+        ssh_activate_command.arg("-t");
     }
 
     for ssh_opt in &deploy_data.merged_settings.ssh_opts {
         ssh_activate_command.arg(&ssh_opt);
     }
+
+    debug!(
+        "ssh_confirm_command: {}",
+        ssh_activate_command
+    )
 
     if !magic_rollback {
         let ssh_activate_exit_status = ssh_activate_command
@@ -267,12 +272,17 @@ pub async fn deploy_profile(
         ssh_confirm_command.arg(format!("ssh://{}@{}", deploy_defs.ssh_user, hostname));
 
         if *deploy_data.ssh_interactive_tty {
-            ssh_confirm_command.arg("-S");
+            ssh_confirm_command.arg("-t");
         }
 
         for ssh_opt in &deploy_data.merged_settings.ssh_opts {
             ssh_confirm_command.arg(ssh_opt);
         }
+
+        debug!(
+            "ssh_confirm_command: {}",
+            ssh_confirm_command
+        )
 
         let lock_path =
             super::make_lock_path(&temp_path, &deploy_data.profile.profile_settings.path);
