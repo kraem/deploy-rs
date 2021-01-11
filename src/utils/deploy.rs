@@ -265,12 +265,11 @@ pub async fn deploy_profile(
 
         let mut c = Command::new("ssh");
         let mut ssh_confirm_command = c;
+        ssh_confirm_command.arg(format!("ssh://{}@{}", deploy_defs.ssh_user, hostname));
 
         if *deploy_data.ssh_interactive_tty {
             ssh_confirm_command.arg("-t");
         }
-
-        ssh_confirm_command.arg(format!("ssh://{}@{}", deploy_defs.ssh_user, hostname));
 
         for ssh_opt in &deploy_data.merged_settings.ssh_opts {
             ssh_confirm_command.arg(ssh_opt);
