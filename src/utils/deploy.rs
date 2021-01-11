@@ -214,9 +214,8 @@ pub async fn deploy_profile(
     let ssh_activate_command = ssh_activate_command_.arg(&ssh_addr);
 
     if *deploy_data.ssh_interactive_tty {
-        ssh_activate_command.arg("-t");
+        ssh_activate_command.arg("-tt");
     }
-
 
     for ssh_opt in &deploy_data.merged_settings.ssh_opts {
         ssh_activate_command.arg(&ssh_opt);
@@ -268,7 +267,7 @@ pub async fn deploy_profile(
         ssh_confirm_command.arg(format!("ssh://{}@{}", deploy_defs.ssh_user, hostname));
 
         if *deploy_data.ssh_interactive_tty {
-            ssh_confirm_command.arg("-t");
+            ssh_confirm_command.arg("-tt");
         }
 
         for ssh_opt in &deploy_data.merged_settings.ssh_opts {
