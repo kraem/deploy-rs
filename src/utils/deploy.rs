@@ -212,7 +212,7 @@ pub async fn deploy_profile(
 
     let mut ssh_activate_command_ = Command::new("ssh");
     if *deploy_data.ssh_interactive_tty {
-        ssh_activate_command_.arg("-t");
+        ssh_activate_command_.arg("-tt");
     }
 
     let ssh_activate_command = ssh_activate_command_.arg(&ssh_addr);
