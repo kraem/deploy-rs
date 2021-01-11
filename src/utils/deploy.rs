@@ -222,9 +222,9 @@ pub async fn deploy_profile(
     }
 
     debug!(
-        "ssh_confirm_command: {}",
+        "ssh_activate_command: {:#?}",
         ssh_activate_command
-    )
+    );
 
     if !magic_rollback {
         let ssh_activate_exit_status = ssh_activate_command
@@ -280,9 +280,9 @@ pub async fn deploy_profile(
         }
 
         debug!(
-            "ssh_confirm_command: {}",
+            "ssh_confirm_command: {:#?}",
             ssh_confirm_command
-        )
+        );
 
         let lock_path =
             super::make_lock_path(&temp_path, &deploy_data.profile.profile_settings.path);
